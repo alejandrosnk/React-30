@@ -1,127 +1,111 @@
-1) ¿Qué es React en una frase útil?
------------------------------------
+Day 1 Theory
+------------
 
-React es una librería para construir interfaces de usuario usando **componentes** que renderizan **HTML (JSX)** en función de **estado y props**.
+### 1) What is React (in a practical sentence)?
 
-En React, no “manipulas el DOM” directamente. Tú describes “cómo se ve” la UI según los datos, y React se encarga de actualizarla cuando cambian.
+React is a library for building user interfaces using **components** that render **UI (JSX)** based on **data, props, and state**.
 
-2) ¿Qué construimos hoy?
-------------------------
+In React, you usually do not manipulate the DOM directly. You describe how the UI should look for a given state, and React updates the UI when that state changes.
 
-Montaste el esqueleto de una **SPA (Single Page Application)** con rutas:
+### 2) What did we build today?
 
-*   / (Dashboard)
+You created the foundation of a **Single Page Application (SPA)** with these routes:
+
+*   / → Dashboard
     
-*   /day/:n (Día n)
+*   /day/:n → Day N screen
     
-*   /roadmap
+*   /roadmap → 30-day plan overview
     
-*   /projects
-    
-
-Eso significa que el usuario navega entre pantallas **sin recargar** el navegador, pero viendo URLs distintas.
-
-3) Vite: por qué lo usamos
---------------------------
-
-Vite es el “tooling” de desarrollo: crea el proyecto, levanta el servidor local, compila y construye para producción.
-
-*   npm run dev → entorno de desarrollo (rápido, hot reload)
-    
-*   npm run build → crea versión final para producción en dist/
-    
-*   npm run preview → sirve la build localmente para probar como producción
+*   /projects → portfolio projects + links
     
 
-La razón práctica: Vite es más simple y rápido para este tipo de apps que otras configuraciones.
+This means users can navigate between pages **without full page reloads**, while still having clean, shareable URLs.
 
-4) React Router: qué problema resuelve
---------------------------------------
+### 3) Why we use Vite
 
-En una SPA, si no usas un router:
+Vite is the build tool and dev server that powers your React project.
 
-*   tienes una sola página y tendrías que “simular” navegación con condicionales
+*   npm run dev → development mode (fast, hot reload)
     
-*   el URL no cambia, y no puedes compartir un link directo a una pantalla
+*   npm run build → production build output in dist/
     
-
-React Router resuelve esto:
-
-*   mapea **URL → componente**
-    
-*   permite links internos () sin recargar
-    
-*   permite rutas dinámicas como /day/10 con :n
+*   npm run preview → serve the production build locally to test it
     
 
-### Conceptos clave (los que ya usaste)
+Main reason: Vite is lightweight and fast, which is ideal for this 30-day learning project.
 
-*   : habilita el routing usando el historial del navegador.
-    
-*   : contenedor de rutas (elige una ruta que haga match).
-    
-*   : regla que dice “si el path coincide, renderiza este componente”.
-    
-*   **/day/:n**: :n es un parámetro dinámico (ej.: 1, 2, 30).
-    
+### 4) What problem React Router solves
 
-5) ¿Qué es una ruta dinámica /day/:n?
--------------------------------------
+Without a router in an SPA:
 
-Es una plantilla de URL.
-
-*   /day/:n “acepta” /day/1, /day/2, /day/30, etc.
+*   you would “fake” navigation with conditionals
     
-*   Dentro del componente DayPage, luego vamos a leer n con useParams().
+*   URLs would not change
+    
+*   you could not share a direct link to a specific screen (like Day 10)
     
 
-Esto es clave para tu app: no vas a crear 30 páginas manualmente. Tendrás **una sola** DayPage que cambia según el número.
+React Router solves this by:
 
-6) ¿Por qué ya pensamos en Vercel con rewrites?
------------------------------------------------
+*   mapping **URL → component**
+    
+*   enabling navigation without reloads using 
+    
+*   supporting dynamic routes like /day/10 via route params
+    
 
-En desarrollo funciona porque Vite/Router manejan la navegación.Pero en producción, si alguien entra directo a:
+### 5) What is a dynamic route like /day/:n?
+
+It is a URL pattern.
+
+*   /day/:n matches /day/1, /day/2, /day/30, etc.
+    
+*   later, inside DayPage, you will read n with useParams()
+    
+
+This is a core design decision: you do **not** create 30 separate pages. You create **one** DayPage that changes based on the number in the URL.
+
+### 6) Why we need Vercel rewrites for production
+
+In development, React Router handles routing. In production, if a user opens:
 
 /day/10
 
-El servidor intenta buscar un archivo real /day/10 y puede dar 404.
+the server might look for a real file/folder /day/10 and return **404**.
 
-La solución en Vercel para SPAs: **reescribir todas las rutas a index.html**, y que React Router decida qué renderizar.
+To fix this for SPAs on Vercel, you configure rewrites so that **all routes serve index.html**, and React Router decides what to render.
 
-Por eso luego usaremos:
+That is why we later add:
 
 Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   {    "rewrites": [{ "source": "/(.*)", "destination": "/" }]  }   `
 
-7) Git hoy: qué significa el commit que hiciste
------------------------------------------------
+### 7) What your Git commit means (Day 1)
 
-*   git init creó un repositorio **local** (carpeta .git)
+*   git init created a **local Git repository** (.git folder)
     
-*   git add . preparó los archivos para guardarlos en el historial
+*   git add . staged the project files
     
-*   git commit creó un “punto de control” con un mensaje
-    
-
-A partir de ahora, al final de cada clase:
-
-*   **guardamos el avance**
-    
-*   **subimos a GitHub** (push)
+*   git commit created a saved checkpoint in your history
     
 
-Eso hace tu progreso auditable y publicable.
+From now on, at the end of every class:
 
-8) Resumen conceptual del Día 1 (lo que debes retener)
-------------------------------------------------------
+*   we save progress with Git
+    
+*   we push to GitHub as evidence and portfolio-ready history
+    
 
-1.  React app = componentes.
+### 8) Day 1 key takeaways
+
+1.  React apps are built with components.
     
-2.  SPA = navega sin recargar.
+2.  An SPA navigates without full reloads.
     
-3.  Router = URL → componente (y rutas dinámicas).
+3.  React Router maps URL → component (including dynamic params).
     
-4.  Vite = desarrollo/build.
+4.  Vite runs dev server and builds production output.
     
-5.  Producción necesita rewrites para rutas.
+5.  Production needs rewrites to avoid 404 on deep links.
     
-6.  Git = evidencia diaria.
+6.  Git + GitHub gives you daily evidence and a clean portfolio trail.
